@@ -24,6 +24,28 @@ class BaseModel:
                 if a == "creeated_at" or a == "updated_at":
                     self.__dict__[a] = datetime.strptime(b, time_format)
                 else:
-                    self.__dict__[k] = b
+                    self.__dict__[a] = b
         else:
             models.storage.new(self)
+
+    def save(self):
+        """ updates the public instance attribute updated_at
+        with the current datetime """
+        self.updated_at = datetime.today()
+        models.storage.save()
+
+    def to_dict(self):
+        """ returns a dictionary containing all keys/values
+        of __dict__ of the instance """
+        dictionary = self.__dict__.copy()
+        dictionary["created_at"] = self.created_at.isoformat()
+        dictionary["updated_at"] = self.updated_at.isoformat()
+        dictionary["__class__"] = self.__class__.__name__
+        return dictionary
+
+    def __str__(self):
+        """ should print: [<class name>] (<self.id>) <self.__dict__>
+        of the BaseModel instance """
+        class_name = self.__class__.__name__
+
+        return "[{}] ({}) {}".format(class_name, self.id, self.__dict__)
