@@ -17,11 +17,11 @@ class BaseModel:
         time_format = "%Y-%m-%dT%H:%M:%S.%f"
         self.id = str(uuid4())
         self.created_at = datetime.today()
-        self.created_at = datetime.today()
+        self.updated_at = datetime.today()
 
         if len(kwargs) != 0:
             for a, b in kwargs.items():
-                if a == "creeated_at" or a == "updated_at":
+                if a == "created_at" or a == "updated_at":
                     self.__dict__[a] = datetime.strptime(b, time_format)
                 else:
                     self.__dict__[a] = b
